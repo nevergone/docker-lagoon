@@ -17,6 +17,7 @@ RUN echo $UNPRIV_USERNAME > /.unpriv_username \
     && chmod +x /usr/local/bin/docker-compose \
     && gem install pygmy \
     && useradd -s /bin/bash -m $UNPRIV_USERNAME -p '' \
+    && usermod -aG docker $UNPRIV_USERNAME \
     ## finish
     && apt-get -f install \
     && apt-get autoremove --purge -y \
