@@ -20,7 +20,7 @@ RUN echo $UNPRIV_USERNAME > /.unpriv_username \
     ## finish
     && apt-get -f install \
     && apt-get autoremove --purge -y \
-    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY usr /usr
 
