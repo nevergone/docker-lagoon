@@ -1,0 +1,20 @@
+#!/bin/bash
+set -e
+
+if [ -f /.unpriv_username ]; then
+  export UNPRIV_USERNAME=$(cat /.unpriv_username)
+fi
+
+## load common functions
+source /usr/local/bin/functions.sh
+
+mappingUnprivUidGid $UNPRIV_USERNAME $UNPRIV_UID $UNPRIV_GID
+
+createShellAlias
+
+## switch unprivileged user
+if [[ -n "${SU_UNPRIV}" && "${SU_UNPRIV}" != 0 ]]; then
+  sudo -u $UNPRIV_USERNAME -H -E --preserve-env=ENV "$@"
+else
+  exec "$@"
+fi

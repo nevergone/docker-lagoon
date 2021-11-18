@@ -1,0 +1,31 @@
+FROM ubuntu:20.04
+
+ARG UNPRIV_USERNAME=unpriv
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV LANG='en_US.UTF-8'
+ENV LANGUAGE='en_US:en'
+ENV LC_ALL='en_US.UTF-8'
+ENV RUBYOPT='-KU -E utf-8:utf-8'
+
+RUN echo $UNPRIV_USERNAME > /.unpriv_username \
+    && apt-get update \
+    && apt-get -qy full-upgrade \
+    && apt-get install -qy bash curl mc net-tools nodejs npm ruby sudo wget \
+    && curl -sSL https://get.docker.com/ | sh \
+    && curl -sSL https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64 -o /usr/local/bin/docker-compose \
+    && chmod +x /usr/local/bin/docker-compose \
+    && gem install pygmy \
+    && useradd -s /bin/bash -m $UNPRIV_USERNAME -p '' \
+    ## finish
+    && apt-get -f install \
+    && apt-get autoremove --purge -y \
+    && rm -rf /var/lib/apt/lists/* \
+
+COPY usr /usr
+
+VOLUME /app
+WORKDIR /app
+
+ENTRYPOINT ["/usr/local/bin/shell"]
+CMD ["/bin/sh"]
