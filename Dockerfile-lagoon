@@ -29,4 +29,4 @@ VOLUME /app
 WORKDIR /app
 
 ENTRYPOINT ["/usr/local/bin/shell"]
-CMD ["/bin/sh"]
+CMD ["/bin/bash"]
