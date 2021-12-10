@@ -19,7 +19,7 @@ RUN apt-get update \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list \
     && curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash - \
     && apt-get update \
-    && apt-get install -qy --force-yes --no-install-recommends bash nodejs openssh-client ruby wget yarn \
+    && apt-get install -qy --force-yes --no-install-recommends bash nodejs openssh-client python3 ruby wget yarn \
     && curl -sSL https://get.docker.com/ | sh \
     && curl -sSL https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64 -o /usr/local/bin/docker-compose \
     && chmod +x /usr/local/bin/docker-compose \
