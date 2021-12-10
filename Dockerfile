@@ -19,7 +19,7 @@ RUN apt-get update \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list \
     && curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash - \
     && apt-get update \
-    && apt-get install -qy --force-yes --no-install-recommends bash nodejs openssh-client python3 ruby wget yarn \
+    && apt-get install -qy --force-yes --no-install-recommends bash nodejs openssh-client php-cli python3 ruby wget yarn \
     && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash \
     # https://github.com/bubenshchykov/ngrok/issues/115#issuecomment-380927124
     && npm install --unsafe-perm -g ngrok \
@@ -27,6 +27,11 @@ RUN apt-get update \
     && curl -sSL https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64 -o /usr/local/bin/docker-compose \
     && chmod +x /usr/local/bin/docker-compose \
     && gem install pygmy \
+    ## composer
+    && curl -sSL https://getcomposer.org/download/latest-1.x/composer.phar -o /usr/local/bin/composer.1 \
+    && curl -sSL https://getcomposer.org/download/latest-2.x/composer.phar -o /usr/local/bin/composer.2 \
+    && chmod +x /usr/local/bin/composer.1 /usr/local/bin/composer.2 \
+    && ln -s /usr/local/bin/composer.1 /usr/local/bin/composer \
     ## finish
     && apt-get -f install \
     && apt-get autoremove --purge -y \
