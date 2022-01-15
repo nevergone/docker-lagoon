@@ -1,12 +1,15 @@
 FROM ubuntu:20.04
 
+ARG UNPRIV_USERNAME=unpriv
+
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG='en_US.UTF-8'
 ENV LANGUAGE='en_US:en'
 ENV LC_ALL='en_US.UTF-8'
 ENV RUBYOPT='-KU -E utf-8:utf-8'
 
-RUN apt-get update \
+RUN echo $UNPRIV_USERNAME > /.unpriv_username \
+    && apt-get update \
     && apt-get -qy full-upgrade \
     ## yarn and nodejs
     && apt-get install -y --force-yes --no-install-recommends ca-certificates curl gnupg locales sudo \
@@ -33,6 +36,8 @@ RUN apt-get update \
     && chmod +x /usr/local/bin/composer.1 /usr/local/bin/composer.2 \
     && ln -s /usr/local/bin/composer.1 /usr/local/bin/composer \
     ## finish
+    && useradd -s /bin/bash -m $UNPRIV_USERNAME -p '' \
+    && usermod -aG docker $UNPRIV_USERNAME \
     && apt-get -f install \
     && apt-get autoremove --purge -y \
     && rm -rf /var/lib/apt/lists/*
